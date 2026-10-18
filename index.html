@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stratasys Material Catalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#3ed4ff; --primary-hover:#22c4f2; --primary-soft:#e9f9fe; --primary-border:#3ed4ff;
+  --fg:#333; --fg-strong:#09090b; --muted-fg:#808080; --border:#e6e6e6; --sidebar-border:#e4e4e7;
+  --muted:#f4f4f5; --stage:#f5f5f5; --card:#fff; --ink:#111; --ink-2:#1e1e1f;
+  --danger-bg:#fde4e4; --danger-ink:#6b1d1d;
+  --radius:6px;
+  --font:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--font);color:var(--fg);background:var(--stage);font-size:14px;-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+input,select{font:inherit}
+svg{display:block}
+.ico{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- shell ---------- */
+.app{display:flex;height:100vh;height:100dvh}
+.sidebar{width:323px;flex:none;background:#fff;border-right:1px solid var(--sidebar-border);display:flex;flex-direction:column;transition:margin .25s ease;z-index:30}
+.app.collapsed .sidebar{margin-left:-323px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;background:var(--stage)}
+
+/* sidebar */
+.sb-head{height:62px;display:flex;align-items:center;gap:10px;padding:0 16px;box-shadow:0 2px 6px rgba(0,0,0,.05);position:relative;z-index:1}
+.logo{width:32px;height:32px;background:var(--ink);border-radius:2px;display:grid;place-items:center;flex:none}
+.logo svg{width:19px;height:23px}
+.sb-title{font-size:11px;font-weight:600;letter-spacing:.02em;flex:1;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;font-size:12px;font-weight:500;white-space:nowrap;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--muted)}
+.btn.icon{width:32px;padding:0}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#0b2530;text-transform:uppercase;font-weight:500;font-size:14px;letter-spacing:.01em;height:40px;border-radius:2px}
+.btn.primary:hover{background:var(--primary-hover)}
+.btn.dark{background:transparent;border-color:#555;color:#fff;border-radius:2px}
+.btn.dark:hover{background:#2a2a2a}
+.btn.dark.on{background:#333;border-color:#777}
+.btn.dark:disabled{opacity:.35;cursor:not-allowed}
+.btn.light-out{background:transparent;border-color:#555;color:#222;border-radius:2px}
+.sb-body{flex:1;overflow:auto;padding:0 6px}
+.acc{border-bottom:1px solid var(--border)}
+.acc-h{width:100%;display:flex;align-items:center;justify-content:space-between;padding:22px 6px;font-size:11px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--fg-strong)}
+.acc-h .ico{transition:transform .2s}
+.acc.open .acc-h .ico{transform:rotate(180deg)}
+.acc.open .acc-h{padding-bottom:12px}
+.acc-c{display:none;padding:0 6px 16px}
+.chk{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;user-select:none;line-height:20px}
+.chk input{appearance:none;width:16px;height:16px;margin:0;border:1px solid #c9c9c9;border-radius:2px;background:#fff;flex:none;cursor:pointer;display:grid;place-items:center}
+.chk input:checked{background:var(--primary);border-color:var(--primary)}
+.chk input:checked::after{content:"";width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.chk input:indeterminate{background:var(--primary);border-color:var(--primary)}
+.chk input:indeterminate::after{content:"";width:8px;height:2px;background:#fff}
+.chk .n{color:var(--muted-fg);font-size:12px;margin-left:auto}
+.range{grid-column:1/-1;display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
+.range label{font-size:12px;color:var(--muted-fg);display:flex;justify-content:space-between}
+.range label b{color:var(--fg);font-weight:500}
+.range input[type=range]{width:100%;accent-color:var(--primary)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+.g1{display:flex;flex-direction:column;gap:8px}
+.acc.open .acc-c{display:flex;flex-direction:column;gap:12px}
+.tchips{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 8px 0 6px;border:1px solid var(--border);border-radius:2px;font-size:13px;cursor:pointer;user-select:none;transition:border-color .15s,background .15s}
+.tchip:hover{border-color:#cfcfcf}
+.tchip.on{border-color:var(--primary);background:var(--primary-soft)}
+.tchip input{appearance:none;width:14px;height:14px;margin:0;border:1px solid #c9c9c9;border-radius:2px;display:grid;place-items:center;cursor:pointer}
+.tchip input:checked{background:var(--primary);border-color:var(--primary)}
+.tchip input:checked::after{content:"";width:7px;height:3px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.tchip i{width:7px;height:7px;transform:rotate(45deg);display:block}
+.subgroup{margin-left:12px;padding-left:14px;border-left:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.sub-t{font-size:13px;font-weight:500;color:var(--fg-strong)}
+.gi{position:relative;width:20px;height:20px;display:grid;place-items:center;font-style:normal;font-size:6.5px;font-weight:700;flex:none;margin-right:2px}
+.gi::before{content:"";position:absolute;width:13px;height:13px;border-radius:2px;transform:rotate(45deg);background:var(--gb);border:1px solid var(--gs)}
+.gi span{position:relative;color:var(--gt);letter-spacing:-.02em}
+.gi.vm{--gb:#fde3cf;--gs:#f3b48a;--gt:#8a1c1c}
+.gi.pm{--gb:#fff3b8;--gs:#ecc94b;--gt:#5b1a8a}
+.dd{position:relative}
+.dd-btn{width:100%;height:34px;border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font-size:13px;color:#444;background:#fff}
+.dd-btn.has{color:var(--fg-strong)}
+.dd-btn .ico{transition:transform .2s}
+.dd.open .dd-btn .ico{transform:rotate(180deg)}
+.dd-list{display:none;border:1px solid var(--border);border-top:0;padding:8px 10px;flex-direction:column;gap:8px;max-height:220px;overflow:auto;background:#fff}
+.dd.open .dd-list{display:flex}
+.legacy{margin-left:auto;font-size:10px;color:var(--muted-fg);border:1px solid var(--border);border-radius:2px;padding:0 4px}
+.toggle.sw{font-size:13px}
+.hint{margin:0;font-size:12px;color:#555;line-height:1.45}
+.ucard{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:2px;padding:12px;cursor:pointer;transition:background .15s,border-color .15s}
+.ucard.on{background:var(--primary-soft);border-color:var(--primary)}
+.ucard input{appearance:none;width:14px;height:14px;margin:2px 0 0;border:1px solid #c9c9c9;border-radius:50%;display:grid;place-items:center;flex:none}
+.ucard input:checked{border:2px solid var(--primary)}
+.ucard b{display:block;font-weight:500;font-size:13px;color:var(--fg-strong);margin-bottom:4px}
+.ucard small{font-size:12px;color:#555}
+.mp{display:flex;flex-direction:column;gap:10px;padding-bottom:6px}
+.mp-t{font-size:13px;font-weight:500;color:var(--fg-strong)}
+.rg{display:flex;flex-direction:column;gap:2px}
+.rg-h{display:flex;align-items:center;justify-content:space-between;min-height:24px}
+.rg-l{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.nums{display:flex;align-items:center;gap:4px}
+.nums i{font-style:normal;font-size:11px;color:#777}
+.num{width:38px;height:22px;border:1px solid var(--border);border-radius:2px;text-align:center;font-size:11px;padding:0 2px;-moz-appearance:textfield;color:var(--fg)}
+.num::-webkit-inner-spin-button,.num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.num:focus{outline:none;border-color:var(--primary)}
+.dual{position:relative;height:16px}
+.dual-track{position:absolute;left:0;right:0;top:7px;height:2px;border-radius:2px;background:linear-gradient(to right,#e4e4e7 var(--a),#bfeeff var(--a),#bfeeff var(--b),#e4e4e7 var(--b))}
+.dual input{position:absolute;inset:0;width:100%;margin:0;appearance:none;-webkit-appearance:none;background:none;pointer-events:none;height:16px}
+.dual input::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:1px;transform:rotate(45deg);background:var(--primary);border:0;pointer-events:auto;cursor:grab;box-shadow:0 0 0 3px rgba(62,212,255,.0);transition:box-shadow .15s}
+.dual input::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px rgba(62,212,255,.25)}
+.dual input::-moz-range-thumb{width:10px;height:10px;border-radius:1px;transform:rotate(45deg);background:var(--primary);border:0;pointer-events:auto;cursor:grab}
+.dual input::-moz-range-track{background:none}
+.dual input:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(62,212,255,.35)}
+.dual-mm{display:flex;justify-content:space-between;font-size:10px;color:#555}
+.sb-foot{height:64px;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--border);background:#fafafa;font-size:14px}
+
+/* header */
+.top{height:62px;display:flex;align-items:center;gap:12px;padding:0 16px 0 18px;background:#fff;flex:none}
+.top .reopen{display:none}
+.app.collapsed .top .reopen{display:inline-flex}
+.top .logo{display:none}
+.app.collapsed .top .logo{display:grid}
+.page-title{font-size:20px;font-weight:400;color:var(--fg-strong);white-space:nowrap;letter-spacing:-.01em}
+.badge{font-size:11px;border:1px solid var(--border);border-radius:4px;padding:2px 6px;white-space:nowrap}
+.page-sub{display:none}
+.spacer{flex:1}
+.tabs{display:flex;background:var(--ink);border-radius:4px;padding:4px;gap:2px;position:relative}
+.tab{height:28px;padding:0 9px;border-radius:3px;color:#fff;font-size:13px;white-space:nowrap;transition:background .15s,color .15s}
+.tab:hover{background:#2a2a2a}
+.tab.dim{color:#9a9a9a}
+.tab.active{background:#fff;color:var(--ink)}
+.tip{position:absolute;background:var(--ink);color:#fff;border-radius:4px;padding:8px 10px;font-size:12px;z-index:80;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.18);white-space:nowrap}
+.tip b{display:block;font-weight:500;font-size:13px;margin-bottom:2px}
+.tip small{color:#cfcfcf;font-size:11px}
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12px;padding:8px 10px;border-radius:4px;white-space:nowrap;z-index:90;pointer-events:none}
+
+.filters-row{min-height:48px;display:flex;align-items:center;gap:8px;padding:8px 18px;background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);flex-wrap:wrap;flex:none}
+.filters-row .lbl{font-size:11px;font-weight:500;margin-right:4px}
+.chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 6px;border:1px solid var(--border);border-radius:3px;font-size:11px;background:#fff;white-space:nowrap}
+.chip button{display:grid;place-items:center;opacity:.7}
+.chip button:hover{opacity:1}
+.chip .ico{width:11px;height:11px}
+.link{font-size:11px;font-weight:500;padding:4px 6px;border-radius:3px}
+.link:hover{background:var(--muted)}
+.none-lbl{font-size:11px;color:var(--muted-fg)}
+
+.stage{flex:1;min-height:0;padding:18px;display:flex;gap:16px;position:relative}
+.panel{background:#fff;border:1px solid var(--border);border-radius:4px;display:flex;flex-direction:column;min-width:0;min-height:0}
+
+/* table */
+.tbl-wrap{flex:1;overflow:auto;min-height:0}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:760px}
+th,td{height:44px;padding:0 12px;text-align:center;border-bottom:1px solid var(--border);white-space:nowrap;font-size:13px}
+th{position:sticky;top:0;background:#fff;z-index:2;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;height:44px;color:var(--fg-strong)}
+th:first-child,td:first-child{position:sticky;left:0;background:#fff;z-index:1;text-align:left;box-shadow:1px 0 0 var(--border) inset}
+th:first-child{z-index:3}
+th:nth-child(2),td:nth-child(2){text-align:left}
+td:first-child .cell{display:flex;align-items:center;gap:8px;font-weight:500}
+tbody tr{transition:background .12s}
+tbody tr:hover td{background:#fafafa}
+tbody tr.sel td{background:var(--primary-soft);border-bottom-color:var(--primary)}
+tbody tr.sel td:first-child{box-shadow:2px 0 0 var(--primary) inset}
+tbody tr.sel + tr.sel td{border-top:0}
+.plus{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;color:#444}
+.plus:hover{background:var(--muted)}
+.plus .ico{width:14px;height:14px}
+.tag{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 6px;border-radius:2px;font-size:11px;font-weight:600}
+.tag i{width:7px;height:7px;transform:rotate(45deg);border-radius:1px;display:block}
+.tbl-foot{height:44px;display:flex;align-items:center;padding:0 12px;font-size:13px;border-top:1px solid var(--border);flex:none}
+th.sortable{cursor:pointer}
+th.sortable:hover{background:#fafafa}
+th .arrow{opacity:.4;margin-left:2px}
+
+/* graph panels */
+.chart-panel{flex:0 0 42%;max-width:560px;overflow:auto}
+.chart-head{padding:16px 18px;border-bottom:1px solid var(--border)}
+.chart-head h2{margin:0;font-size:17px;font-weight:400;color:var(--fg-strong)}
+.chart-head p{margin:4px 0 0;font-size:12px;color:var(--muted-fg)}
+.ctrl{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.ctrl-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.picker-wrap{position:relative}
+.picker-btn{width:100%;height:34px;border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;background:#fff;font-size:13px}
+.picker-btn:hover{border-color:#cfcfcf}
+.picker{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:4px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:60;display:none}
+.picker.open{display:block}
+.pk-scrim{display:none}
+.picker-h{display:none}
+.picker-body{padding:8px;max-height:320px;overflow:auto}
+.picker-group{padding:6px 6px 10px}
+.picker-group h4{margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.radio{display:flex;align-items:center;gap:10px;padding:7px 6px;border-radius:3px;cursor:pointer;font-size:13px}
+.radio:hover{background:var(--muted)}
+.radio input{appearance:none;width:16px;height:16px;border:1px solid #c9c9c9;border-radius:50%;margin:0;display:grid;place-items:center;flex:none}
+.radio input:checked{border-color:var(--primary)}
+.radio input:checked::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--primary)}
+.picker-foot{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border)}
+.picker-foot .btn.primary{flex:1;height:34px;font-size:13px}
+.toggle{display:inline-flex;align-items:center;gap:10px;font-size:12px;cursor:pointer;user-select:none}
+.toggle input{appearance:none;width:30px;height:16px;border-radius:99px;background:#d4d4d4;margin:0;position:relative;cursor:pointer;transition:background .15s;flex:none}
+.toggle input::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .15s}
+.toggle input:checked{background:var(--primary)}
+.toggle input:checked::after{transform:translateX(14px)}
+.chart-box{padding:16px 18px 8px;position:relative}
+.chart-box svg{width:100%;height:auto;overflow:visible}
+.bc{--yw:34px;min-width:calc(var(--yw) + var(--n)*40px);padding-top:8px}
+.bc-plot{position:relative;height:clamp(200px,calc(100vh - 560px),420px);margin-left:var(--yw)}
+.bc-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between}
+.bc-g{height:0;border-top:1px solid #ececec;position:relative}
+.bc-g:last-child{border-top-color:#d4d4d4}
+.bc-g span{position:absolute;right:calc(100% + 8px);top:-8px;font-size:11px;color:#333;white-space:nowrap}
+.bc-bars{position:absolute;inset:0;display:flex;align-items:flex-end;padding:0 4px}
+.bc-col{flex:1;height:100%;display:flex;align-items:flex-end;justify-content:center;min-width:0;padding:0 6px}
+.bc-bar{width:100%;max-width:48px;border-radius:1px 1px 0 0;position:relative;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center}
+.bc-bar span{writing-mode:vertical-rl;font-size:10px;color:#222;white-space:nowrap;pointer-events:none}
+.bc-bar span.out{writing-mode:horizontal-tb;position:absolute;bottom:calc(100% + 3px);font-size:10px}
+.bc-names{display:flex;padding:0 4px;margin-left:var(--yw)}
+.bc-name{flex:1;min-width:0;display:flex;justify-content:center;padding:8px 2px 6px;border-left:1px solid var(--border);height:104px;overflow:hidden}
+.bc-name:last-child{border-right:1px solid var(--border)}
+.bc-name span{writing-mode:vertical-rl;max-height:100%;max-width:100%;overflow:hidden;font-size:10.5px;line-height:1.2;color:#333;text-align:start}
+.chart-box svg{max-height:400px}
+.chart-box svg[width]{max-height:none;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;padding:8px 18px 18px;font-size:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:6px;height:6px;border-radius:50%;display:block}
+.legend i.dia{width:7px;height:7px;border-radius:1px;transform:rotate(45deg)}
+.legend .lg-t{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.02em;color:var(--muted-fg)}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:48px 24px;color:var(--muted-fg);font-size:13px}
+.empty .ico{width:28px;height:28px;color:#bdbdbd}
+.empty b{color:var(--fg);font-weight:500;font-size:14px}
+.ctip{position:absolute;background:var(--ink);color:#fff;border-radius:2px;padding:10px 12px;font-size:11px;font-weight:500;text-transform:uppercase;pointer-events:none;z-index:20;display:none;min-width:200px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.ctip div{display:flex;justify-content:space-between;gap:24px;line-height:20px}
+.ctip::after{content:"";position:absolute;top:-5px;left:var(--ax,50%);width:10px;height:10px;background:var(--ink);transform:translateX(-50%) rotate(45deg)}
+.mobile-list-head{display:none}
+
+/* printers */
+.view-switch{position:absolute;top:10px;right:18px;display:flex;background:#fff;border-radius:4px;padding:4px;gap:2px;border:1px solid var(--border)}
+.view-switch button{height:28px;padding:0 10px;border-radius:3px;font-size:13px}
+.view-switch button.on{background:var(--muted)}
+.stage.printers{padding-top:58px}
+.cards-h{display:flex;gap:16px;overflow-x:auto;flex:1;padding-bottom:12px;align-items:stretch;align-self:flex-start;max-height:100%;scroll-snap-type:x proximity}
+.pcard{flex:1 0 calc((100% - 24px)/3);min-width:256px;background:#fff;border:1px solid var(--border);border-radius:2px;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.05);scroll-snap-align:start}
+.pcard-h{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11px;font-weight:600;border-bottom:1px solid var(--border)}
+.pcard-body{padding:10px 16px 0;flex:1;display:flex;flex-direction:column;overflow:auto}
+.pimg{border:1px solid var(--border);border-radius:2px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pimg img{width:100px;height:90px;object-fit:contain;mix-blend-mode:multiply}
+.pimg .nm{display:flex;align-items:center;gap:8px;font-size:17px;color:var(--fg-strong)}
+.sec-t{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.02em;padding:14px 0 8px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.mats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mats.scroll{max-height:84px;overflow:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:#cfcfcf transparent}
+.mats.scroll::-webkit-scrollbar{width:6px}
+.mats.scroll::-webkit-scrollbar-thumb{background:#cfcfcf;border-radius:3px}
+.mats.scroll::-webkit-scrollbar-track{background:transparent}
+.mat{display:flex;align-items:center;gap:6px;height:24px;padding:0 8px;background:var(--muted);border-radius:2px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mat .gi{width:18px;height:18px;margin:0 0 0 -4px;font-size:6px}
+.mat .gi::before{width:12px;height:12px}
+.mat.more{justify-content:center;gap:6px;cursor:pointer;font-weight:500}
+.mat.more:hover{background:#ebebeb}
+.mat.more.full{width:100%;margin-top:6px;font-family:inherit;color:inherit;border:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bay{display:flex;align-items:center;gap:10px;font-size:14px}
+.bay .bx{width:24px;height:24px;border-radius:2px;background:var(--muted);display:grid;place-items:center}
+.bay .ico{width:14px;height:14px}
+.pcard-foot{padding:16px}
+.pcard-foot .btn{width:100%}
+.printer-list{flex:0 0 clamp(300px,38%,460px);overflow:auto;display:flex;flex-direction:column;gap:16px;padding-right:6px;min-height:0}
+.prow{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:16px 16px 18px;flex:none}
+.prow-top{display:flex;align-items:flex-start;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.prow-top img{width:56px;height:64px;object-fit:contain;mix-blend-mode:multiply;flex:none}
+.prow-id{flex:1;min-width:0}
+.prow-id .nm{font-size:14px;color:var(--fg-strong);margin-bottom:4px}
+.prow-top .btn.primary{height:30px;font-size:13px;padding:0 12px}
+.prow-grid{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:14px;margin-top:10px;font-size:13px}
+.prow-grid .k{font-size:9px;font-weight:600;text-transform:uppercase;margin-bottom:6px;line-height:1.2}
+.prow-grid .vol{line-height:1.35;white-space:nowrap}
+.prow-grid .bay{font-size:13px;margin-bottom:4px}
+.prow .mats{grid-template-columns:1fr;gap:3px}
+.prow .mat{height:18px;font-size:10px}
+.prow .mat.more.full{margin-top:3px}
+/* expanded: up to 6 materials, then an inner scroll; equalizeRows() gives every list card the tallest card's height */
+.prow .mats.scroll{max-height:123px}
+
+/* selection bar */
+.selbar{position:absolute;left:0;right:0;bottom:14px;margin:0 0;display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--ink);color:#fff;z-index:40;box-shadow:0 -4px 20px rgba(0,0,0,.15);animation:up .2s ease}
+.selbar.err{background:var(--danger-bg);color:#3a0d0d}
+.selbar.still{animation:none}
+.stage.has-bar{padding-bottom:84px}
+@keyframes up{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.selbar .cnt{min-width:28px;height:28px;padding:0 6px;display:grid;place-items:center;background:var(--primary);color:#0b2530;font-size:15px;font-weight:500}
+.selbar.err .cnt{background:var(--danger-ink);color:#fff}
+.selbar .txt{flex:1;min-width:0}
+.selbar .txt b{display:block;font-weight:400;font-size:14px}
+.selbar .txt small{font-size:11px;opacity:.75}
+.selbar .acts{display:flex;gap:8px;flex-wrap:wrap}
+.selbar .x{width:32px;height:32px;display:grid;place-items:center;border-radius:3px}
+.selbar .x:hover{background:rgba(255,255,255,.12)}
+.selbar.err .x:hover{background:rgba(0,0,0,.06)}
+
+/* drawer / sheets / dialog */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;animation:fade .15s}
+.scrim.clear{background:transparent}
+@keyframes fade{from{opacity:0}}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:368px;max-width:100%;background:#fff;z-index:110;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.12);animation:slide .22s ease}
+@keyframes slide{from{transform:translateX(30px);opacity:0}}
+.drawer-h{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11px;font-weight:600;border-bottom:1px solid var(--border);flex:none}
+.drawer-b{flex:1;overflow:auto;padding:20px 16px}
+.drawer-b h3{margin:0;display:flex;align-items:center;gap:10px;font-size:20px;font-weight:400;color:var(--fg-strong)}
+.drawer-b p{font-size:13px;line-height:1.5;margin:14px 0 20px}
+.benefits{list-style:none;padding:0;margin:0 0 6px;display:flex;flex-direction:column;gap:10px;font-size:13px}
+.benefits li{display:flex;gap:8px;align-items:center}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pgrid span{height:28px;display:flex;align-items:center;padding:0 10px;background:var(--muted);font-size:11px;text-transform:uppercase}
+.drawer-f{padding:16px;border-top:1px solid var(--border)}
+.drawer-f .btn{width:100%}
+.only-m{display:none!important}
+
+.dialog{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(364px,calc(100% - 32px));background:#fff;z-index:120;padding:22px 18px 18px;border-radius:2px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.dialog h3{margin:0 0 10px;font-size:17px;font-weight:600;color:var(--fg-strong)}
+.dialog p{margin:0 0 18px;font-size:13px;line-height:1.5}
+.dialog .row{display:flex;justify-content:flex-end;gap:8px}
+.dialog .btn{height:34px;border-radius:2px;text-transform:uppercase;font-size:13px}
+.dialog .btn.outline{border-color:#222}
+.dialog .btn.primary{width:120px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:4px;font-size:13px;z-index:200;animation:up .2s;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+
+/* mobile nav (hidden on desktop) */
+.mnav,.mtop,.mlist,.mfoot-sb{display:none}
+
+/* ---------- tablet: overlay sidebar ---------- */
+@media (max-width:1100px) and (min-width:768px){
+  .sidebar{position:fixed;top:0;bottom:0;left:0;box-shadow:10px 0 30px rgba(0,0,0,.12)}
+  .tab{padding:0 7px;font-size:12px}
+  .chart-panel{flex-basis:48%}
+}
+
+/* ---------- mobile ---------- */
+@media (max-width:767px){
+  .only-d{display:none!important}
+  .only-m{display:revert!important}
+  body{background:#fff}
+  .app{flex-direction:column}
+  .sidebar{position:fixed;inset:0;width:auto;margin:0!important;z-index:105;transform:translateY(100%);transition:transform .25s ease;visibility:hidden}
+  .app.filters-open .sidebar{transform:none;visibility:visible}
+  .sb-head{height:56px;box-shadow:none;border-bottom:1px solid var(--border)}
+  .sb-head .logo,.sb-head .btn{display:none}
+  .sb-head .sb-title{font-size:17px;font-weight:500;letter-spacing:0;text-transform:none}
+  .sb-head .close-m{display:grid!important}
+  .sb-chips{display:flex!important;gap:6px;overflow-x:auto;padding:12px 16px;border-bottom:1px solid var(--border);scrollbar-width:none}
+  .sb-body{padding:0 10px}
+  .acc-h{padding:24px 6px}
+  .sb-foot{display:none}
+  .mfoot-sb{display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:#fafafa}
+  .mfoot-sb .btn.primary{flex:1}
+  .mfoot-sb .btn{height:40px;border-radius:2px}
+  .main{background:#fff;min-height:0}
+  .mtop{display:flex;align-items:center;gap:10px;height:56px;padding:0 16px;border-bottom:1px solid var(--border);flex:none}
+  .mtop .logo{width:30px;height:30px}
+  .top{height:auto;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 16px 10px}
+  .top .reopen,.top .logo,.top .badge,.tabs{display:none!important}
+  .page-title{font-size:18px}
+  .page-sub{display:block;font-size:13px;color:var(--fg)}
+  .filters-row{display:none}
+  .stage{padding:0;flex-direction:column;gap:0;overflow:auto;padding-bottom:90px}
+  .stage.has-bar{padding-bottom:170px}
+  .panel{border:0;border-radius:0}
+  .tbl-panel{display:none}
+  .mlist{display:block}
+  .mlist-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:5}
+  .mlist-head .chk{border:1px solid var(--border);border-radius:2px;padding:2px 8px;font-size:12px}
+  .mlist-head .chk input{width:14px;height:14px}
+  .mlist-head span{font-size:13px}
+  .mcard{padding:12px 16px 14px;border-bottom:1px solid var(--border);transition:background .12s}
+  .mcard.sel{background:var(--primary-soft);border-bottom-color:var(--primary);box-shadow:inset 0 1px 0 var(--primary)}
+  .mcard-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .mcard-h .chk{font-size:15px}
+  .mprops{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none}
+  .mprops div{flex:none}
+  .mprops .k{font-size:9px;font-weight:600;text-transform:uppercase;margin-bottom:5px;letter-spacing:.02em}
+  .mprops .v{font-size:14px}
+  .mprops .tag{height:18px;font-size:10px}
+  .mnav{display:flex;position:fixed;left:0;right:0;bottom:0;height:calc(72px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:#fff;border-top:1px solid var(--border);z-index:50;box-shadow:0 -2px 10px rgba(0,0,0,.04)}
+  .mnav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;line-height:1.1;text-align:center;color:#222}
+  .mnav .bx{width:30px;height:28px;display:grid;place-items:center;border-radius:4px;background:var(--muted)}
+  .mnav .ico{width:17px;height:17px}
+  .mnav button.active{font-weight:600}
+  .mnav button.active .bx{background:#d8f6ff;color:#0aa6d6}
+  .mnav button.dis{color:#c2c2c2}
+  .mnav button.dis .bx{background:#f7f7f7}
+  .selbar{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom));padding:12px 16px}
+  .selbar .acts{display:none}
+  .selbar.err{align-items:flex-start}
+  .chart-panel{flex:none;max-width:none;overflow:visible}
+  .chart-head{display:none}
+  .ctrl{flex-direction:row;align-items:center;gap:10px;border:0;padding:8px 16px 12px}
+  .ctrl .ctrl-lbl{display:none}
+  .ctrl .picker-wrap{flex:1}
+  .ctrl .toggle{flex:none}
+  .picker-btn{height:30px;font-size:12px;background:#fafafa}
+  .picker{position:fixed;left:0;right:0;bottom:0;top:auto;border-radius:0;z-index:130;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+  .pk-scrim{display:block!important;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:125;animation:fade .15s}
+  .picker-h{display:flex;align-items:center;justify-content:space-between;padding:20px 16px;border-bottom:1px solid var(--border);font-size:17px;color:var(--fg-strong)}
+  .picker-body{max-height:50vh;padding:12px 10px}
+  .picker-foot{padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:#fafafa}
+  .picker-foot .btn{height:40px}
+  .chart-box{margin:0 16px;padding:12px;border:1px solid var(--border);border-radius:2px}
+  .legend{margin:10px 16px 0;border:1px solid var(--border);padding:14px}
+  .mobile-list-head{display:flex}
+  .stage.printers{padding-top:0}
+  .view-switch{position:static;align-self:flex-end;margin:0 16px 12px;border:0;padding:0;gap:8px}
+  .view-switch button{width:30px;height:30px;padding:0;background:var(--muted);display:grid;place-items:center}
+  .view-switch button.on{background:#d8f6ff;color:#0aa6d6}
+  .view-switch .lbl{display:none}
+  .cards-h{flex-direction:column;overflow:visible;padding:0 16px;gap:16px}
+  .pcard{flex:none;min-width:0;width:100%}
+  .printer-list{flex:none;max-width:none;margin:0 16px;padding:0;overflow:visible}
+  .graph-table{display:none}
+  .drawer{width:100%;top:0;animation:rise .22s ease}
+  @keyframes rise{from{transform:translateY(30px);opacity:0}}
+  .drawer-h{height:56px}
+  .toast{bottom:calc(90px + env(safe-area-inset-bottom))}
+  .tipm{left:16px!important;right:16px;white-space:normal!important}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- Sidebar / mobile filter sheet -->
+  <aside class="sidebar" id="sidebar" aria-label="Filters">
+    <div class="sb-head">
+      <div class="logo" aria-label="Stratasys"></div>
+      <div class="sb-title">Filters</div>
+      <button class="btn" data-act="reset"><svg class="ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
+      <button class="btn icon" data-act="toggle-sidebar" data-tip="Close sidebar" aria-label="Close sidebar"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M15 4v16M10 10l-2 2 2 2"/></svg></button>
+      <button class="btn icon close-m" style="display:none;border:0" data-act="close-filters" aria-label="Close"><svg class="ico" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="sb-chips" id="sbChips" style="display:none"></div>
+    <div class="sb-body" id="sbBody"></div>
+    <div class="sb-foot" id="sbFoot"></div>
+    <div class="mfoot-sb">
+      <button class="btn" data-act="reset-m"><svg class="ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
+      <button class="btn primary" data-act="close-filters" id="showBtn">Show materials</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="mtop">
+      <div class="logo"></div>
+      <button class="btn icon" data-act="open-filters" aria-label="Filters"><svg class="ico" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg></button>
+      <span class="spacer"></span>
+      <button class="btn" data-act="reset"><svg class="ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
+    </div>
+    <header class="top">
+      <button class="btn icon reopen" data-act="toggle-sidebar" data-tip="Open filters" aria-label="Open filters"><svg class="ico" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg></button>
+      <div class="logo"></div>
+      <div class="page-title" id="pageTitle">Material Catalog</div>
+      <span class="badge" id="pageBadge"></span>
+      <div class="page-sub" id="pageSub"></div>
+      <span class="spacer"></span>
+      <nav class="tabs" id="tabs"></nav>
+    </header>
+    <div class="filters-row" id="filtersRow"></div>
+    <section class="stage" id="stage"></section>
+    <nav class="mnav" id="mnav"></nav>
+  </main>
+</div>
+<div id="overlay"></div>
+
+<script>
+/* ================= DATA ================= */
+const LOGO = '<svg viewBox="0 0 20.948 25.4589"><path fill="#FBFDFF" d="M20.948 8.66611L10.474 0L0 8.66611L4.9097 12.7295L0 16.7928L10.474 25.4589L20.948 16.7928L16.0383 12.7295L20.948 8.66611ZM10.0376 17.1884V23.9846L1.85477 17.1884H10.0376ZM1.85477 16.3613L5.60069 13.2689L9.31024 16.3613H1.85477ZM10.9104 17.1884H19.1296L10.9104 23.9846V17.1884ZM10.9104 1.43836L19.1296 8.2346H10.9104V1.43836ZM10.0376 8.2346H1.85477L10.074 1.43836V8.2346H10.0376ZM10.0376 9.09762V15.8939L1.85477 9.09762H10.0376ZM11.6742 9.09762H19.1296L15.3837 12.1901L11.6742 9.09762ZM19.1296 16.3613H10.9104V9.56508L19.1296 16.3613Z"/></svg>';
+const PRINTER_IMG = 'assets/printer.png';
+
+const TECH = {
+  FDM:{bg:'#c4d9ff',fg:'#16307a',d:'#7aa7ff'},
+  Polyjet:{bg:'#ffd6bd',fg:'#6e2e00',d:'#ff9a52'},
+  P3:{bg:'#ffc6f1',fg:'#6e0b58',d:'#f25ad3'},
+  SLA:{bg:'#bff3cc',fg:'#0b5222',d:'#28c556'},
+  SAF:{bg:'#e3cefc',fg:'#43128a',d:'#6c19bb'},
+};
+const SERIES = ['#ffbb6b','#9ac6ff','#3ce770','#6c19bb','#f9a8f0','#3ed4ff','#ff7a7a','#ffd84d','#2b6cff','#9b9b9b'];
+
+const PROPS = [
+  {k:'fs', label:'Flexural Strength', short:'Flexural', unit:'MPa'},
+  {k:'ts', label:'Tensile Strength', short:'Tensile Strength', unit:'MPa'},
+  {k:'imp',label:'Impact Strength (Izod)', short:'Impact', unit:'J/m'},
+  {k:'hdt',label:'HDT @ 0.45 MPa', short:'HDT', unit:'°C'},
+  {k:'el', label:'Elongation at Break', short:'Elongation', unit:'%'},
+  {k:'tm', label:'Tensile Modulus', short:'Tensile Modulus', unit:'GPa'},
+];
+const P = Object.fromEntries(PROPS.map(p=>[p.k,p]));
+
+// name, tech, ts, tm, fs, el, hdt, imp, compliance, applications, printers, envelope
+const RAW = [
+ ['ABS-CF10','FDM',36,4.3,58,1.8,96,42,['ESD'],['Tooling','Automotive'],['F900','Fortus 450mc','F370'],'Large'],
+ ['Agilus30 White','Polyjet',2.4,0.002,0,220,0,0,['Biocompatible'],['Medical','Consumer'],['J55 Prime','J850 Pro','J3 DentaJet'],'Medium'],
+ ['Loctite 3843','P3',48,1.8,72,22,62,44,['Biocompatible'],['Consumer','Automotive'],['Origin One'],'Small'],
+ ['Somos WaterShed XC+','SLA',50,2.8,77,11,48,25,['Transparent'],['Automotive','Aerospace'],['Neo800'],'Large'],
+ ['PA12','SAF',47,1.75,59,8,170,40,['Food contact'],['Automotive','Consumer'],['H350'],'Medium'],
+ ['Antero 800NA','FDM',93,3.0,141,6.4,147,43,['Low outgassing','Flame retardant'],['Aerospace'],['F900','Fortus 450mc'],'Large'],
+ ['Antero 840CN03','FDM',87,3.3,136,3.1,149,35,['ESD','Low outgassing'],['Aerospace'],['F900','Fortus 450mc'],'Large'],
+ ['ULTEM 9085','FDM',72,2.2,112,5.8,153,120,['Flame retardant'],['Aerospace','Automotive'],['F900','Fortus 450mc'],'Large'],
+ ['ULTEM 1010','FDM',81,2.8,144,3.3,216,41,['Food contact','Biocompatible'],['Aerospace','Medical'],['F900','Fortus 450mc'],'Large'],
+ ['Nylon 12CF','FDM',76,7.5,142,1.9,143,85,['ESD'],['Tooling','Automotive'],['F900','Fortus 450mc','F370'],'Large'],
+ ['ASA','FDM',33,2.0,60,9,98,64,['UV stable'],['Consumer','Automotive'],['F900','Fortus 450mc','F370'],'Medium'],
+ ['PC-ABS','FDM',41,1.9,68,6,112,196,[],['Consumer','Automotive'],['F900','Fortus 450mc','F370'],'Medium'],
+ ['VeroClear','Polyjet',58,2.9,88,15,47,24,['Transparent'],['Consumer','Medical'],['J55 Prime','J850 Pro'],'Medium'],
+ ['VeroUltra White','Polyjet',62,2.6,95,12,51,22,[],['Consumer'],['J55 Prime','J850 Pro'],'Medium'],
+ ['Digital ABS Plus','Polyjet',58,2.8,74,30,92,95,[],['Tooling','Consumer'],['J850 Pro'],'Medium'],
+ ['MED610','Polyjet',55,2.4,80,15,45,24,['Biocompatible','Transparent'],['Medical','Dental'],['J5 DentaJet','J3 DentaJet','J850 Pro'],'Small'],
+ ['VeroGlaze MED620','Polyjet',50,2.2,72,12,48,23,['Biocompatible'],['Dental'],['J5 DentaJet','J3 DentaJet'],'Small'],
+ ['VeroDent MED670','Polyjet',53,2.5,80,14,46,22,['Biocompatible'],['Dental'],['J5 DentaJet','J3 DentaJet'],'Small'],
+ ['Med Silicone 25A','P3',4.1,0.003,0,320,0,0,['Biocompatible'],['Medical'],['Origin One'],'Small'],
+ ['Loctite IND405','P3',39,1.2,48,64,58,74,[],['Automotive','Tooling'],['Origin One'],'Small'],
+ ['Loctite 3955 FST','P3',64,2.9,104,4.8,190,22,['Flame retardant'],['Aerospace'],['Origin One'],'Small'],
+ ['Somos PerFORM','SLA',68,10.5,120,1.1,268,17,[],['Tooling','Aerospace'],['Neo800'],'Large'],
+ ['Somos Taurus','SLA',49,2.3,79,24,95,48,[],['Automotive','Consumer'],['Neo800'],'Large'],
+ ['Somos EvoLVe 128','SLA',47,2.6,72,13,52,47,[],['Consumer','Automotive'],['Neo800'],'Large'],
+ ['SAF PA11','SAF',52,1.6,58,23,182,61,['Biocompatible'],['Automotive','Consumer'],['H350'],'Medium'],
+ ['SAF PP','SAF',30,1.4,39,22,96,52,['Food contact','Chemical resistant'],['Automotive','Consumer'],['H350'],'Medium'],
+ ['TPU 92A','FDM',17,0.03,0,550,0,0,[],['Consumer','Medical'],['F370','F900'],'Medium'],
+ ['FDM Nylon 6','FDM',67,2.2,99,38,118,106,[],['Tooling','Automotive'],['F900','Fortus 450mc'],'Large'],
+ ['ST-130','FDM',28,1.5,52,3.2,96,30,['Soluble support'],['Tooling'],['F900','Fortus 450mc'],'Large'],
+ ['Elastico Clear','Polyjet',1.6,0.001,0,170,0,0,['Transparent'],['Consumer','Medical'],['J55 Prime','J850 Pro'],'Medium'],
+];
+const DESCS = {
+ FDM:'Engineering-grade thermoplastic for durable, functional parts with excellent mechanical properties and repeatable quality.',
+ Polyjet:'Photopolymer for multi-material, full-color prototypes with fine detail, smooth surfaces and realistic look and feel.',
+ P3:'Programmable photopolymer delivering injection-mold-like surface finish and accuracy for end-use production parts.',
+ SLA:'High-resolution stereolithography resin for large, accurate parts with superb surface quality.',
+ SAF:'Powder-bed thermoplastic for high-throughput production of consistent, isotropic end-use parts.',
+};
+const MATERIALS = RAW.map((r,i)=>({id:i,name:r[0],tech:r[1],ts:r[2],tm:r[3],fs:r[4],el:r[5],hdt:r[6],imp:r[7],compliance:r[8],apps:r[9],printers:r[10],env:r[11]}));
+MATERIALS.find(m=>m.name==='Antero 800NA').desc='PEKK-based high-performance material with excellent mechanical properties, chemical resistance, and low outgassing.';
+
+const PRINTERS = [
+ {name:'J3 DentaJet®',tech:'Polyjet',vol:'250 × 122 × 200mm',mb:3,sb:1},
+ {name:'J5 DentaJet',tech:'Polyjet',vol:'140 × 200 × 190mm',mb:5,sb:1},
+ {name:'J55 Prime',tech:'Polyjet',vol:'140 × 200 × 190mm',mb:5,sb:1},
+ {name:'J850 Pro',tech:'Polyjet',vol:'490 × 390 × 200mm',mb:7,sb:2},
+ {name:'F900',tech:'FDM',vol:'914 × 610 × 914mm',mb:2,sb:2},
+ {name:'Fortus 450mc',tech:'FDM',vol:'406 × 355 × 406mm',mb:4,sb:2},
+ {name:'F370',tech:'FDM',vol:'355 × 254 × 355mm',mb:2,sb:2},
+ {name:'Origin One',tech:'P3',vol:'192 × 108 × 370mm',mb:1,sb:0},
+ {name:'Neo800',tech:'SLA',vol:'800 × 800 × 600mm',mb:1,sb:0},
+ {name:'H350',tech:'SAF',vol:'315 × 208 × 293mm',mb:1,sb:0},
+ {name:'Fortus 400mc',tech:'FDM',vol:'406 × 355 × 406mm',mb:1,sb:1,legacy:true},
+ {name:'Objet30 Prime',tech:'Polyjet',vol:'294 × 192 × 149mm',mb:1,sb:1,legacy:true},
+ {name:'Objet Eden260VS',tech:'Polyjet',vol:'255 × 252 × 200mm',mb:2,sb:1,legacy:true},
+];
+// legacy printer support
+[['Fortus 400mc',['ULTEM 9085','ASA','PC-ABS','ST-130','FDM Nylon 6']],['Objet30 Prime',['VeroClear','VeroUltra White','MED610']],['Objet Eden260VS',['VeroClear','Digital ABS Plus','Agilus30 White']]]
+  .forEach(([p,ms])=>ms.forEach(n=>MATERIALS.find(m=>m.name===n).printers.push(p)));
+PRINTERS.forEach(p=>{ p.dims=p.vol.match(/[\d.]+/g).map(Number); p.mats=MATERIALS.filter(m=>m.printers.some(x=>p.name.startsWith(x))).map(m=>m.name); });
+const printerOf = n=>PRINTERS.find(p=>p.name.startsWith(n));
+
+// extra material attributes used by the filters
+const STATUS = ['Preferred','Validated','Open'];
+MATERIALS.forEach((m,i)=>{
+  m.status = STATUS[i%3];
+  if(m.tech==='Polyjet') m.group = /^Vero/.test(m.name) ? 'Vero Materials' : 'Performance Materials';
+  m.sh = m.el>100 ? 25+(i%4)*5 : 72+(i%5)*3;                      // Shore hardness
+  m.zxF = m.tech==='FDM' ? 0.78+(i%4)*0.03 : 0.94+(i%3)*0.02;      // ZX / XZ anisotropy factor
+});
+
+const uniq = a=>[...new Set(a)];
+const COMPLIANCE = ['Transparent','Soluble support','Biocompatible','ESD','Flame retardant','Food contact','Low outgassing','UV stable'];
+const GROUPS = {'Vero Materials':'VM','Performance Materials':'PM'};
+const MECH = [
+  {k:'ts', label:'Tensile Strength (MPa)', step:1},
+  {k:'tm', label:'Tensile Modulus (GPa)', step:0.1},
+  {k:'el', label:'Elongation at Break (%)', step:1},
+  {k:'fs', label:'Flexural Strength (MPa)', step:1},
+  {k:'imp',label:'IZOD impact notched (J/m)', step:1},
+  {k:'sh', label:'Shore Scale', step:1},
+  {k:'hdt',label:'HDT @264psi (°C)', step:1, xzOnly:true},
+];
+const MECH_MAX = Object.fromEntries(MECH.map(p=>[p.k, Math.ceil(Math.max(...MATERIALS.map(m=>m[p.k]))*1.05/ (p.k==='tm'?1:10))*(p.k==='tm'?1:10)]));
+const ENV_MAX = 1000;
+const dirVal = (m,k,dir)=> dir==='xz' ? m[k] : +(m[k]*m.zxF).toFixed(k==='tm'?2:0);
+const CAT_LABELS = [['compliance','Compliance & Requirements'],['tech','Technologies'],['printers','Printers'],['units','Application Units'],['env','Build Envelope'],['mech','Mechanical Properties']];
+
+function defaultFilters(){
+  return {
+    compliance:new Set(), tech:new Set(), group:new Set(), printers:new Set(), status:new Set(), legacy:false,
+    env:{x:[0,ENV_MAX],y:[0,ENV_MAX],z:[0,ENV_MAX]},
+    mech:Object.fromEntries(MECH.map(p=>[p.k,{xz:[0,MECH_MAX[p.k]],zx:[0,MECH_MAX[p.k]]}])),
+  };
+}
+const rangeMax = path => path.startsWith('env') ? ENV_MAX : MECH_MAX[path.split('.')[1]];
+const rangeOf = path => path.split('.').reduce((o,k)=>o[k], S.f);
+const isFull = (r,max) => r[0]<=0 && r[1]>=max;
+
+/* ================= STATE ================= */
+const S = {
+  f:defaultFilters(),
+  units:'si', printerDD:false,
+  open:new Set(),
+  view:'table',
+  sel:new Set(),
+  radarN:5, barProp:'fs', sx:'ts', sy:'hdt', names:true,
+  pmode:'cards', pexp:new Set(), phidden:new Set(),
+  sort:null, sortDir:1,
+  profile:null, dialog:null, bar:null, picker:null, tip:null,
+};
+const mq = matchMedia('(max-width:767px)');
+const isM = ()=>mq.matches;
+const LIMIT = 10;
+
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function fitsEnvelope(m){
+  const e=S.f.env; if(isFull(e.x,ENV_MAX)&&isFull(e.y,ENV_MAX)&&isFull(e.z,ENV_MAX)) return true;
+  return m.printers.map(printerOf).some(p=>p && (S.f.legacy||!p.legacy) && ['x','y','z'].every((a,i)=>p.dims[i]>=e[a][0] && p.dims[i]<=e[a][1]));
+}
+function filtered(){
+  const f=S.f;
+  return MATERIALS.filter(m=>{
+    for(const c of f.compliance) if(!m.compliance.includes(c)) return false;
+    if(f.tech.size && !f.tech.has(m.tech)) return false;
+    if(f.group.size && m.tech==='Polyjet' && !f.group.has(m.group)) return false;
+    if(f.printers.size && !m.printers.some(n=>f.printers.has(printerOf(n)?.name))) return false;
+    if(f.status.size && !f.status.has(m.status)) return false;
+    if(!fitsEnvelope(m)) return false;
+    for(const p of MECH) for(const dir of ['xz','zx']){
+      const r=f.mech[p.k][dir]; if(isFull(r,MECH_MAX[p.k])) continue;
+      const v=dirVal(m,p.k,dir); if(!m[p.k] || v<r[0] || v>r[1]) return false;
+    }
+    return true;
+  });
+}
+function activeChips(){
+  const out=[], f=S.f;
+  f.compliance.forEach(v=>out.push({label:'Req: '+v,rm:()=>f.compliance.delete(v)}));
+  f.tech.forEach(v=>out.push({label:'Tech: '+v,rm:()=>f.tech.delete(v)}));
+  f.group.forEach(v=>out.push({label:'Group: '+v,rm:()=>f.group.delete(v)}));
+  f.printers.forEach(v=>out.push({label:'Printer: '+v,rm:()=>f.printers.delete(v)}));
+  if(f.legacy) out.push({label:'Legacy models included',rm:()=>f.legacy=false});
+  f.status.forEach(v=>out.push({label:'Status: '+v,rm:()=>f.status.delete(v)}));
+  ['x','y','z'].forEach(a=>{ const r=f.env[a]; if(!isFull(r,ENV_MAX)) out.push({label:`Envelope ${a.toUpperCase()}: ${r[0]}–${r[1]} mm`,rm:()=>f.env[a]=[0,ENV_MAX]}); });
+  MECH.forEach(p=>['xz','zx'].forEach(dir=>{ const r=f.mech[p.k][dir]; if(!isFull(r,MECH_MAX[p.k])) out.push({label:`${p.label.replace(/ \(.*\)/,'')} ${dir.toUpperCase()}: ${r[0]}–${r[1]}`,rm:()=>f.mech[p.k][dir]=[0,MECH_MAX[p.k]]}); }));
+  return out;
+}
+function pruneSel(){ const ids=new Set(filtered().map(m=>m.id)); for(const id of [...S.sel]) if(!ids.has(id)) S.sel.delete(id); }
+
+/* ================= ICONS ================= */
+const I = {
+  x:'<svg class="ico" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+  caret:'<svg class="ico" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>',
+  plus:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
+  check:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>',
+  eye:'<svg class="ico" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  sliders:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>',
+  drop:'<svg class="ico" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>',
+  layers:'<svg class="ico" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>',
+  table:'<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></svg>',
+  radar:'<svg class="ico" viewBox="0 0 24 24"><path d="m12 3 8.5 6.2-3.2 10H6.7l-3.2-10z"/><path d="m12 8 4 3-1.5 5h-5L8 11z"/></svg>',
+  bar:'<svg class="ico" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-9"/></svg>',
+  scatter:'<svg class="ico" viewBox="0 0 24 24"><path d="M3 3v18h18"/><circle cx="8" cy="15" r="1"/><circle cx="12" cy="10" r="1"/><circle cx="17" cy="13" r="1"/><circle cx="18" cy="6" r="1"/></svg>',
+  printer:'<svg class="ico" viewBox="0 0 24 24"><path d="M6 9V3h9M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h12"/><rect x="6" y="14" width="12" height="7"/><path d="M19 2v6M16 5h6"/></svg>',
+  cards:'<svg class="ico" viewBox="0 0 24 24"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M8 4h10a2 2 0 0 1 2 2v10"/></svg>',
+  list:'<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>',
+  info:'<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h0"/></svg>',
+};
+const VIEWS = [
+  {k:'table',label:'Table',m:'Main Table',ico:I.table},
+  {k:'radar',label:'Radar Graph',m:'Radar Graph',ico:I.radar,limited:true},
+  {k:'bar',label:'Bar Graph',m:'Bar Graph',ico:I.bar,limited:true},
+  {k:'scatter',label:'Scatter Graph',m:'Scatter Graph',ico:I.scatter},
+  {k:'printers',label:'Printer Overview',m:'Printer Overview',ico:I.printer},
+];
+const VIEW = Object.fromEntries(VIEWS.map(v=>[v.k,v]));
+const tag = t=>`<span class="tag" style="background:${TECH[t].bg};color:${TECH[t].fg}"><i style="background:${TECH[t].d}"></i>${t}</span>`;
+const US = {MPa:['psi',v=>v*145.038,0], GPa:['ksi',v=>v*145.038,0], '°C':['°F',v=>v*9/5+32,0], 'J/m':['ft·lb/in',v=>v*0.018734,2], '%':['%',v=>v,0]};
+const unitOf = k=> S.units==='us' && US[P[k].unit] ? US[P[k].unit][0] : P[k].unit;
+const val = (m,k)=>{ const v=m[k]; if(!v) return 0; return S.units==='us' && US[P[k].unit] ? US[P[k].unit][1](v) : v; };
+const fmt = (m,k)=>{ const v=val(m,k); if(!v) return '—';
+  if(S.units==='us'){ const d=US[P[k].unit]?.[2]??1; return d? v.toFixed(d) : Math.round(v).toLocaleString('en-US'); }
+  return k==='tm'? v.toFixed(v<0.1?3:1) : v; };
+const fmtU = (m,k)=> m[k] ? `${fmt(m,k)} ${unitOf(k)}` : '—';
+
+/* ================= RENDER ================= */
+function render(){
+  document.querySelectorAll('.logo').forEach(l=>l.innerHTML=LOGO);
+  pruneSel();
+  renderSidebar(); renderHeader(); renderFiltersRow(); renderStage(); renderNav(); renderOverlay();
+}
+
+function dualHTML(path, step=1, minLbl=0){
+  const r=rangeOf(path), max=rangeMax(path);
+  return `<div class="dual" data-dual="${path}" style="--a:${r[0]/max*100}%;--b:${r[1]/max*100}%">
+      <div class="dual-track"></div>
+      <input type="range" min="0" max="${max}" step="${step}" value="${r[0]}" data-end="0" aria-label="Minimum">
+      <input type="range" min="0" max="${max}" step="${step}" value="${r[1]}" data-end="1" aria-label="Maximum">
+    </div><div class="dual-mm"><span>${minLbl}</span><span>${max}</span></div>`;
+}
+function numsHTML(path, step=1){
+  const r=rangeOf(path);
+  return `<span class="nums"><input class="num" type="number" step="${step}" value="${r[0]}" data-num="${path}" data-end="0" aria-label="Minimum"><i>-</i><input class="num" type="number" step="${step}" value="${r[1]}" data-num="${path}" data-end="1" aria-label="Maximum"></span>`;
+}
+function catBody(k){
+  const f=S.f;
+  const cb=(set,v,extra='')=>`<label class="chk"><input type="checkbox" data-f="${set}" value="${esc(v)}" ${f[set].has(v)?'checked':''}>${extra}${esc(v)}</label>`;
+  if(k==='compliance') return `<div class="g2">${COMPLIANCE.map(v=>cb('compliance',v)).join('')}</div>`;
+  if(k==='tech'){
+    let h = `<div class="tchips">${Object.keys(TECH).map(t=>`<label class="tchip ${f.tech.has(t)?'on':''}"><input type="checkbox" data-f="tech" value="${t}" ${f.tech.has(t)?'checked':''}><i style="background:${TECH[t].d}"></i>${t==='Polyjet'?'PolyJet':t}</label>`).join('')}</div>`;
+    if(f.tech.has('Polyjet')) h += `<div class="subgroup"><div class="sub-t">Material Group</div>${Object.entries(GROUPS).map(([g,ab])=>cb('group',g,`<em class="gi ${ab.toLowerCase()}"><span>${ab}</span></em>`)).join('')}</div>`;
+    return h;
+  }
+  if(k==='printers'){
+    const list = PRINTERS.filter(p=>f.legacy||!p.legacy);
+    const lbl = f.printers.size ? (f.printers.size===1?[...f.printers][0]:`${f.printers.size} printers selected`) : 'Select Printers...';
+    return `<div class="dd ${S.printerDD?'open':''}"><button class="dd-btn ${f.printers.size?'has':''}" data-act="printer-dd">${esc(lbl)}${I.caret}</button>
+        <div class="dd-list">${list.map(p=>`<label class="chk"><input type="checkbox" data-f="printers" value="${esc(p.name)}" ${f.printers.has(p.name)?'checked':''}>${esc(p.name)}${p.legacy?'<span class="legacy">Legacy</span>':''}</label>`).join('')}</div></div>
+      <label class="toggle sw"><input type="checkbox" data-act="legacy" ${f.legacy?'checked':''}>Include Legacy Models</label>
+      <div class="sub-t">Material Status</div><div class="g1">${STATUS.map(v=>cb('status',v)).join('')}</div>`;
+  }
+  if(k==='units'){
+    return `<p class="hint">Set the default measurement system for all charts and tables.</p>
+      ${[['si','Metric (SI)','MPa, °C, mm, g/cm³'],['us','Imperial (US)','psi, °F, in, lbs/in³']].map(([v,t,d])=>`<label class="ucard ${S.units===v?'on':''}"><input type="radio" name="units" value="${v}" data-act="units" ${S.units===v?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`).join('')}`;
+  }
+  if(k==='env') return ['x','y','z'].map(a=>`<div class="rg"><div class="rg-h"><span class="rg-l">${a==='z'?'z':a.toUpperCase()} (mm)</span>${numsHTML('env.'+a)}</div>${dualHTML('env.'+a)}</div>`).join('');
+  if(k==='mech') return MECH.map(p=>`<div class="mp"><div class="mp-t">${p.label}</div>${(p.xzOnly?['xz']:['xz','zx']).map(dir=>`<div class="rg"><div class="rg-h"><span class="rg-l">${dir.toUpperCase()} Direction</span>${numsHTML(`mech.${p.k}.${dir}`,p.step)}</div>${dualHTML(`mech.${p.k}.${dir}`,p.step)}</div>`).join('')}</div>`).join('');
+}
+function renderSidebar(){
+  const st=$('#sbBody').scrollTop;
+  $('#sbBody').innerHTML = CAT_LABELS.map(([k,label])=>{
+    const open=S.open.has(k);
+    return `<div class="acc ${open?'open':''}"><button class="acc-h" data-acc="${k}" aria-expanded="${open}">${label}${I.caret}</button><div class="acc-c">${open?catBody(k):''}</div></div>`;
+  }).join('');
+  $('#sbBody').scrollTop=st;
+  renderSidebarMeta();
+}
+function renderSidebarMeta(){
+  const n=filtered().length, chips=activeChips();
+  $('#sbFoot').textContent = chips.length ? `${n} materials match filters` : `${MATERIALS.length} materials available`;
+  $('#showBtn').textContent = `Show ${n} materials`;
+  $('#sbChips').innerHTML = chips.map((c,i)=>`<span class="chip">${esc(c.label)}<button data-chip="${i}" aria-label="Remove">${I.x}</button></span>`).join('') || '<span class="none-lbl">No active filters</span>';
+}
+
+function renderHeader(){
+  const n = filtered().length;
+  let title='Material Catalog', badge=`${n} Results`, sub=`Showing ${n} Materials`;
+  if(['radar','bar','scatter'].includes(S.view)){ title = isM()?'Material Property Profiles':'Material Catalog'; sub = VIEW[S.view].label; }
+  if(S.view==='printers'){ const c=compatPrinters().length; title='Hardware Cards'; badge=`${c} compatible printers`; sub=`${c} compatible printers matching your selections`; }
+  $('#pageTitle').textContent = title;
+  $('#pageBadge').textContent = badge;
+  $('#pageSub').textContent = sub;
+  if(isM() && S.view==='table') $('#pageSub').style.display='none'; else $('#pageSub').style.display='';
+  const none = S.sel.size===0;
+  $('#tabs').innerHTML = VIEWS.map(v=>`<button class="tab ${S.view===v.k?'active':''} ${v.limited&&none&&S.view!==v.k?'dim':''}" data-view="${v.k}">${v.label}</button>`).join('');
+}
+
+function renderFiltersRow(){
+  const chips = activeChips();
+  $('#filtersRow').innerHTML = `<span class="lbl">Active Filters:</span>` +
+    (chips.length ? chips.map((c,i)=>`<span class="chip">${esc(c.label)}<button data-chip="${i}" aria-label="Remove filter">${I.x}</button></span>`).join('') + `<button class="link" data-act="clear-all">Clear All</button>`
+      : `<span class="none-lbl">None — use the filter panel to narrow down materials</span>`);
+}
+
+function sortedList(graph){
+  let list = filtered();
+  if(S.sort){ const k=S.sort; list=[...list].sort((a,b)=>k==='name'?a.name.localeCompare(b.name)*S.sortDir:k==='tech'?a.tech.localeCompare(b.tech)*S.sortDir:(a[k]-b[k])*S.sortDir); }
+  if(graph) list = [...list.filter(m=>S.sel.has(m.id)), ...list.filter(m=>!S.sel.has(m.id))];
+  return list;
+}
+
+function tableHTML(graph){
+  const list = sortedList(graph);
+  const all = list.length && list.every(m=>S.sel.has(m.id));
+  const some = !all && list.some(m=>S.sel.has(m.id));
+  const th = (k,l)=>`<th class="sortable" data-sort="${k}">${l}<span class="arrow">${S.sort===k?(S.sortDir>0?'↑':'↓'):''}</span></th>`;
+  const rows = list.map(m=>`<tr class="${S.sel.has(m.id)?'sel':''}">
+      <td><div class="cell"><label class="chk"><input type="checkbox" data-sel="${m.id}" ${S.sel.has(m.id)?'checked':''}>${esc(m.name)}</label><button class="plus" data-profile="${m.id}" aria-label="Material profile">${I.plus}</button></div></td>
+      <td>${tag(m.tech)}</td>${PROPS.map(p=>`<td>${fmtU(m,p.k)}</td>`).join('')}</tr>`).join('');
+  return `<div class="tbl-wrap">${list.length?`<table><thead><tr>
+      <th><label class="chk"><input type="checkbox" data-selall ${all?'checked':''} ${some?'data-ind="1"':''}><span class="sortable" data-sort="name">Material<span class="arrow">${S.sort==='name'?(S.sortDir>0?'↑':'↓'):''}</span></span></label></th>
+      ${th('tech','Technology')}${PROPS.map(p=>th(p.k,p.short+` (${unitOf(p.k)})`)).join('')}</tr></thead><tbody>${rows}</tbody></table>`
+      : `<div class="empty">${I.info}<b>No materials match these filters</b>Try removing a filter or <button class="link" data-act="clear-all" style="color:#0aa6d6">clear all</button>.</div>`}</div>
+    <div class="tbl-foot">${S.sel.size?`${S.sel.size} selected · `:''}Showing 1 to ${list.length} of ${list.length} results</div>`;
+}
+
+function mobileListHTML(graph){
+  const list = sortedList(graph);
+  const all = list.length && list.every(m=>S.sel.has(m.id));
+  return `<div class="mlist">
+    <div class="mlist-head"><label class="chk"><input type="checkbox" data-selall ${all?'checked':''}>Select All</label><span>${S.sel.size&&graph?`${S.sel.size} Materials Selected`:`Showing ${list.length} Materials`}</span></div>
+    ${list.map(m=>`<div class="mcard ${S.sel.has(m.id)?'sel':''}">
+      <div class="mcard-h"><label class="chk"><input type="checkbox" data-sel="${m.id}" ${S.sel.has(m.id)?'checked':''}>${esc(m.name)}</label><button class="plus" data-profile="${m.id}" aria-label="Material profile">${I.plus}</button></div>
+      <div class="mprops"><div><div class="k">Technology</div>${tag(m.tech)}</div>${PROPS.map(p=>`<div><div class="k">${p.short}</div><div class="v">${fmtU(m,p.k)}</div></div>`).join('')}</div>
+    </div>`).join('') || `<div class="empty">${I.info}<b>No materials match these filters</b></div>`}
+  </div>`;
+}
+
+function selBarHTML(){
+  if(S.bar==='err') return `<div class="selbar err" role="alert"><div class="cnt">${S.sel.size}</div><div class="txt"><b>Selection limit reached for view of Radar and Bar Graph (${LIMIT}/${LIMIT}).</b><small>Remove "select all" and choose only ${LIMIT} materials to continue.</small></div>
+     <div class="acts"><button class="btn light-out" data-view="scatter">${I.scatter}Scatter Graph</button><button class="btn light-out" data-view="printers">${I.printer}Printer Overview</button></div><button class="x" data-act="close-bar" aria-label="Close">${I.x}</button></div>`;
+  if(S.view!=='table' || !S.sel.size || S.bar==='hidden') return '';
+  const over = S.sel.size>LIMIT;
+  return `<div class="selbar"><div class="cnt">${S.sel.size}</div><div class="txt"><b>${S.sel.size} Material${S.sel.size>1?'s':''} Selected</b><small>${over?'Radar & Bar graphs support up to 10 — Scatter and Printer Overview are available':'Ready for comparison'}</small></div>
+    <div class="acts">${over?'':`<button class="btn dark" data-view="radar">${I.radar}Radar Graph</button><button class="btn dark" data-view="bar">${I.bar}Bar Graph</button>`}
+    <button class="btn dark" data-view="scatter">${I.scatter}Scatter Graph</button><button class="btn dark" data-view="printers">${I.printer}Printer Overview</button></div>
+    <button class="x" data-act="clear-sel" data-tip="Clear selection" aria-label="Clear selection">${I.x}</button></div>`;
+}
+
+function renderStage(){
+  const st = $('#stage');
+  st.className = 'stage' + (S.view==='printers'?' printers':'');
+  let html='';
+  if(S.view==='table'){
+    html = `<div class="panel tbl-panel" style="flex:1">${tableHTML(false)}</div>${mobileListHTML(false)}`;
+  } else if(S.view==='printers'){
+    html = printersHTML();
+  } else {
+    html = `<div class="panel chart-panel">${chartPanelHTML()}</div><div class="panel graph-table" style="flex:1">${tableHTML(true)}</div>${mobileListHTML(true)}`;
+  }
+  const had = st.querySelector('.selbar')?.className;
+  let bar = selBarHTML();
+  if(had && bar && had.includes('err')===bar.includes('selbar err')) bar = bar.replace('class="selbar','class="selbar still');
+  st.innerHTML = html + bar;
+  st.classList.toggle('has-bar', !!bar);
+  st.querySelectorAll('[data-ind]').forEach(i=>i.indeterminate=true);
+  if(['radar','bar','scatter'].includes(S.view)) wireChart();
+  if(S.view==='printers' && S.pmode==='table') equalizeRows();
+  if(S.view==='scatter' && $('#chartBox svg') && Math.abs(chartInnerWidth()-scatterW)>4 && !renderStage._again){ renderStage._again=true; renderStage(); renderStage._again=false; }
+}
+
+/* ---------- charts ---------- */
+function chartMats(){ return MATERIALS.filter(m=>S.sel.has(m.id) && filtered().includes(m)); }
+function colorOf(m){ const ids=[...S.sel]; const i=ids.indexOf(m.id); return SERIES[(i<0?0:i)%SERIES.length]; }
+
+function pickerHTML(){
+  let label, title, body;
+  if(S.view==='radar'){
+    title='Select amount of view'; label=`${String(S.radarN).padStart(2,'0')} amount of view`;
+    body = `<div class="picker-group"><h4>Amount of view</h4>${[3,4,5,6].map(n=>`<label class="radio"><input type="radio" name="pk" value="${n}" ${S.radarN===n?'checked':''}>${String(n).padStart(2,'0')} properties — ${PROPS.slice(0,n).map(p=>p.short).join(', ')}</label>`).join('')}</div>`;
+  } else if(S.view==='bar'){
+    title='Select property view'; label=P[S.barProp].label;
+    body = `<div class="picker-group"><h4>Property view</h4>${PROPS.map(p=>`<label class="radio"><input type="radio" name="pk" value="${p.k}" ${S.barProp===p.k?'checked':''}>${p.label}</label>`).join('')}</div>`;
+  } else {
+    title='Select axis views'; label=`${P[S.sx].short} × ${P[S.sy].short}`;
+    body = ['sx','sy'].map(ax=>`<div class="picker-group"><h4>${ax==='sx'?'X axis':'Y axis'}</h4>${PROPS.map(p=>`<label class="radio"><input type="radio" name="${ax}" value="${p.k}" ${S[ax]===p.k?'checked':''}>${p.label}</label>`).join('')}</div>`).join('');
+  }
+  const open = S.picker===S.view;
+  return `<div class="picker-wrap">${open?'<div class="pk-scrim" data-act="picker-close"></div>':''}<button class="picker-btn" data-act="picker">${esc(label)}${S.view==='scatter'||isM()?I.sliders:I.caret}</button>
+    <div class="picker ${open?'open':''}" id="picker"><div class="picker-h">${title}<button data-act="picker-close" aria-label="Close">${I.x}</button></div><div class="picker-body">${body}</div>
+    <div class="picker-foot"><button class="btn" data-act="picker-reset"><svg class="ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button><button class="btn primary" data-act="picker-apply">Apply</button></div></div></div>`;
+}
+
+function chartPanelHTML(){
+  const v = S.view;
+  const head = {radar:['Material Property Profiles','Radar Graph'],bar:[P[S.barProp].label,'Bar Graph'],scatter:[`${P[S.sy].short} vs ${P[S.sx].short}`,'Scatter Graph']}[v];
+  const ctrlLbl = {radar:'Select amount of view',bar:'Property view',scatter:'Select axis views'}[v];
+  const toggle = v!=='bar' ? `<label class="toggle"><input type="checkbox" data-act="names" ${S.names?'checked':''}>Name of Materials</label>` : '';
+  const mats = chartMats();
+  let chart='', legend='';
+  if(!mats.length){
+    chart = `<div class="empty">${I[v]}<b>No materials selected</b>Check materials in the table to plot them here.</div>`;
+  } else if(v!=='scatter' && mats.length>LIMIT){
+    chart = `<div class="empty">${I.info}<b>Too many materials (${mats.length})</b>${VIEW[v].label} shows up to ${LIMIT} materials. Uncheck some rows, or switch to Scatter Graph.<button class="btn" data-view="scatter" style="margin-top:6px">${I.scatter}Scatter Graph</button></div>`;
+  } else {
+    chart = v==='radar'?radarSVG(mats):v==='bar'?`<div style="overflow-x:auto">${barSVG(mats)}</div>`:scatterSVG(mats);
+    if(v==='radar' && S.names) legend = `<div class="legend">${mats.map(m=>`<span><i style="background:${colorOf(m)}"></i>${esc(m.name)}</span>`).join('')}</div>`;
+    if(v==='scatter') legend = `<div class="legend"><span class="lg-t">Technology</span>${uniq(mats.filter(m=>m[S.sx]&&m[S.sy]).map(m=>m.tech)).map(t=>`<span><i class="dia" style="background:${TECH[t].d}"></i>${t}</span>`).join('')}</div>`;
+  }
+  return `<div class="chart-head"><h2>${esc(head[0])}</h2><p>${head[1]}</p></div>
+    <div class="ctrl"><div class="ctrl-lbl">${ctrlLbl}</div>${pickerHTML()}${toggle}</div>
+    <div class="chart-box" id="chartBox">${chart}<div class="ctip" id="ctip"></div></div>${legend}`;
+}
+
+function niceMax(v){ const p=Math.pow(10,Math.floor(Math.log10(v||1))); return Math.ceil(v/p/ (v/p>5?2:1))*p*(v/p>5?2:1); }
+
+function radarSVG(mats){
+  const axes = PROPS.slice(0,S.radarN), W=420,H=330,cx=W/2,cy=H/2+2,R=122;
+  const max = Object.fromEntries(axes.map(a=>[a.k,niceMax(Math.max(...mats.map(m=>val(m,a.k)),1)*1.1)]));
+  const ang = i=>-Math.PI/2 + i*2*Math.PI/axes.length;
+  const pt = (i,r)=>[cx+Math.cos(ang(i))*r, cy+Math.sin(ang(i))*r];
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Radar graph">`;
+  for(let g=1;g<=4;g++){ s+=`<circle cx="${cx}" cy="${cy}" r="${R*g/4}" fill="none" stroke="#e6e6e6"/>`; }
+  axes.forEach((a,i)=>{ const [x,y]=pt(i,R); s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#e6e6e6"/>`;
+    const [lx,ly]=pt(i,R+22); const anchor=Math.abs(lx-cx)<8?'middle':lx>cx?'start':'end';
+    const words=a.short.split(' '); s+=`<text x="${lx}" y="${ly+3-(words.length-1)*6}" font-size="11" fill="#333" text-anchor="${anchor}">${words.map((w,j)=>`<tspan x="${lx}" dy="${j?12:0}">${w}</tspan>`).join('')}</text>`;
+    for(let g=1;g<=4;g++){ const [tx,ty]=pt(i,R*g/4); if(i===0) s+=`<text x="${tx+3}" y="${ty+3}" font-size="7" fill="#999">${Math.round(max[a.k]*g/4)}</text>`; }
+  });
+  mats.forEach(m=>{ const c=colorOf(m); const pts=axes.map((a,i)=>pt(i,Math.max(.04,val(m,a.k)/max[a.k])*R).map(n=>n.toFixed(1)).join(',')).join(' ');
+    s+=`<polygon class="rp" data-m="${m.id}" points="${pts}" fill="${c}" fill-opacity=".08" stroke="${c}" stroke-width="1.6" style="cursor:pointer"/>`;
+  });
+  return s+'</svg>';
+}
+
+function barSVG(mats){
+  const k=S.barProp, mx=niceMax(Math.max(...mats.map(m=>val(m,k)),1));
+  const grid=[5,4,3,2,1,0].map(g=>`<div class="bc-g"><span>${+(mx*g/5).toFixed(2)}</span></div>`).join('');
+  const bars=mats.map(m=>{ const v=val(m,k), h=Math.max(1.5,(v/mx)*100), c=colorOf(m), dark=c==='#6c19bb'||c==='#2b6cff';
+    return `<div class="bc-col"><div class="bc-bar" data-m="${m.id}" style="height:${h}%;background:${c}">${v?`<span class="${h<22?'out':''}" style="${h<22?'':dark?'color:#fff':''}">${fmt(m,k)}${h<22?'':' '+unitOf(k)}</span>`:''}</div></div>`; }).join('');
+  const names=mats.map(m=>`<div class="bc-name" title="${esc(m.name)}"><span>${esc(m.name)}</span></div>`).join('');
+  return `<div class="bc" style="--n:${mats.length}"><div class="bc-plot"><div class="bc-grid">${grid}</div><div class="bc-bars">${bars}</div></div><div class="bc-names">${names}</div></div>`;
+}
+
+let scatterW = 0;
+function chartInnerWidth(){
+  const box=document.getElementById('chartBox');
+  if(box && box.clientWidth){ const cs=getComputedStyle(box); return box.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight); }
+  const st=document.getElementById('stage');                    // first render of a graph view: estimate from the stage
+  return isM() ? innerWidth-58 : Math.min(560, (st.clientWidth-52)*0.42)-38;
+}
+function scatterSVG(mats){
+  const W=Math.round(Math.max(260,chartInnerWidth())), H=isM()?300:Math.round(Math.max(280,Math.min(440,innerHeight-480))), l=40, t=16, b=40, ch=H-t-b;
+  scatterW = W;
+  const mxX=niceMax(Math.max(...mats.map(m=>val(m,S.sx)),1)*1.12), mxY=niceMax(Math.max(...mats.map(m=>val(m,S.sy)),1)*1.12);
+  const skipped = mats.filter(m=>!m[S.sx]||!m[S.sy]); mats = mats.filter(m=>m[S.sx]&&m[S.sy]);
+  const lw = m=>m.name.length*5.6+6;
+  // reserve room on the right so every label fits to the right of its diamond (a few passes, plot shrinks as needed)
+  let r=16;
+  if(S.names) for(let i=0;i<3;i++){ const cw=W-l-r; const over=Math.max(0,...mats.map(m=>l+(val(m,S.sx)/mxX)*cw+8+lw(m)-(W-2))); if(over<1) break; r=Math.min(W*0.45, r+over); }
+  const cw=W-l-r;
+  let s=`<svg viewBox="0 0 ${W} ${H+(skipped.length?22:0)}" width="${W}" height="${H+(skipped.length?22:0)}" role="img" aria-label="Scatter graph">`;
+  for(let g=0;g<=5;g++){ const y=t+ch-ch*g/5, x=l+cw*g/5;
+    s+=`<line x1="${l}" x2="${l+cw}" y1="${y}" y2="${y}" stroke="#ececec"/><text x="${l-8}" y="${y+4}" font-size="11" fill="#333" text-anchor="end">${+(mxY*g/5).toFixed(1)}</text>`;
+    s+=`<line y1="${t}" y2="${t+ch}" x1="${x}" x2="${x}" stroke="#ececec"/><text x="${x}" y="${t+ch+16}" font-size="11" fill="#333" text-anchor="middle">${+(mxX*g/5).toFixed(1)}</text>`; }
+  s+=`<text x="${l+cw/2}" y="${H-4}" font-size="10" fill="#808080" text-anchor="middle">${P[S.sx].short} (${unitOf(S.sx)})</text>`;
+  s+=`<text x="10" y="${t+ch/2}" font-size="10" fill="#808080" text-anchor="middle" transform="rotate(-90 10 ${t+ch/2})">${P[S.sy].short} (${unitOf(S.sy)})</text>`;
+  const pts = mats.map(m=>({m, x:l+(val(m,S.sx)/mxX)*cw, y:t+ch-(val(m,S.sy)/mxY)*ch})).sort((p,q)=>p.y-q.y);
+  const boxes=[];
+  pts.forEach(({m,x,y})=>{ s+=`<rect class="sd" data-m="${m.id}" x="${x-4}" y="${y-4}" width="8" height="8" rx="1" transform="rotate(45 ${x} ${y})" fill="${TECH[m.tech].d}" stroke="#fff" stroke-width="1" style="cursor:pointer"/>`; });
+  if(S.names) pts.forEach(({m,x,y})=>{
+    const w=lw(m), x0=x+8;
+    let dy=0; for(const off of [0,-12,12,-24,24,-36,36]){ const y0=y+off-6; if(!boxes.some(b=>x0<b[0]+b[2] && x0+w>b[0] && y0<b[1]+12 && y0+12>b[1])){ dy=off; break; } }
+    boxes.push([x0,y+dy-6,w,12]);
+    if(dy) s+=`<line x1="${x+4}" y1="${y}" x2="${x+8}" y2="${y+dy}" stroke="#bbb" stroke-width=".8"/>`;
+    s+=`<text x="${x0}" y="${y+dy+3.5}" font-size="10" fill="#333" pointer-events="none">${esc(m.name)}</text>`;
+  });
+  if(skipped.length) s+=`<text x="${l}" y="${H+14}" font-size="9.5" fill="#808080">Not plotted (no data for this axis): ${esc(skipped.map(m=>m.name).join(', '))}</text>`;
+  return s+'</svg>';
+}
+
+function wireChart(){
+  const box=$('#chartBox'), tip=$('#ctip'); if(!box) return;
+  box.querySelectorAll('[data-m]').forEach(el=>{
+    const show=()=>{ const m=MATERIALS[+el.dataset.m];
+      const rows = S.view==='bar' ? [['Material',m.name],['Technology',m.tech],[P[S.barProp].short,fmtU(m,S.barProp)],['Tensile Modulus',fmtU(m,'tm')]]
+        : S.view==='scatter' ? [['Material',m.name],['Technology',m.tech],[P[S.sx].short,fmtU(m,S.sx)],[P[S.sy].short,fmtU(m,S.sy)]]
+        : [['Material',m.name],['Technology',m.tech],...PROPS.slice(0,S.radarN).map(p=>[p.short,fmtU(m,p.k)])];
+      tip.innerHTML = rows.map(r=>`<div><span>${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join('');
+      tip.style.display='block';
+      const b=box.getBoundingClientRect(), e=el.getBoundingClientRect();
+      let x=e.left+e.width/2-b.left - tip.offsetWidth/2; x=Math.max(4,Math.min(x,b.width-tip.offsetWidth-4));
+      tip.style.left=x+'px'; tip.style.top=(e.top-b.top+Math.min(e.height,40)+10)+'px';
+      tip.style.setProperty('--ax',(e.left+e.width/2-b.left-x)+'px');
+      if(S.view==='radar'){ box.querySelectorAll('.rp').forEach(p=>p.style.opacity=p===el?1:.25); el.setAttribute('fill-opacity','.25'); }
+      else box.querySelectorAll('[data-m]').forEach(p=>p.style.opacity=p===el?1:.4);
+    };
+    const hide=()=>{ tip.style.display='none'; box.querySelectorAll('[data-m]').forEach(p=>{p.style.opacity=1; if(p.classList.contains('rp')) p.setAttribute('fill-opacity','.08');}); };
+    el.addEventListener('mouseenter',show); el.addEventListener('mouseleave',hide);
+    el.addEventListener('click',e=>{e.stopPropagation(); show();});
+  });
+  box.addEventListener('click',()=>{ tip.style.display='none'; });
+}
+
+/* ---------- printers ---------- */
+function equalizeRows(){
+  const rows=[...document.querySelectorAll('.printer-list .prow')]; if(!rows.length) return;
+  rows.forEach(r=>r.style.minHeight=''); if(isM()) return;
+  const h=Math.max(...rows.map(r=>r.offsetHeight)); rows.forEach(r=>r.style.minHeight=h+'px');
+}
+function compatPrinters(){
+  const base = S.sel.size ? MATERIALS.filter(m=>S.sel.has(m.id)) : filtered();
+  const names = new Set(base.flatMap(m=>m.printers));
+  return PRINTERS.filter(p=>[...names].some(n=>p.name.startsWith(n)) && !S.phidden.has(p.name) && (S.f.legacy||!p.legacy) && (!S.f.printers.size||S.f.printers.has(p.name)));
+}
+function matChips(p, limit){
+  const exp = S.pexp.has(p.name), more = p.mats.length>limit;
+  const chip = n=>{ const ab=/^Vero/.test(n)?'VM':'PM', g=ab==='VM'?'Vero Materials':'Performance Materials';   // VM for Vero family, PM for everything else (as in the design)
+    return `<span class="mat" title="${esc(n)} · ${g}"><em class="gi ${ab.toLowerCase()}"><span>${ab}</span></em>${esc(n)}</span>`; };
+  const ico = d=>`<svg class="ico" style="width:12px;height:12px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="${d}"/></svg>`;
+  if(exp) return `<div class="mats scroll">${p.mats.map(chip).join('')}</div>
+    <button class="mat more full" data-pexp="${esc(p.name)}">Show Less ${ico('M8 12h8')}</button>`;
+  return `<div class="mats">${p.mats.slice(0,limit).map(chip).join('')}${more?`<button class="mat more" data-pexp="${esc(p.name)}">Show More ${ico('M12 8v8M8 12h8')}</button>`:''}</div>`;
+}
+
+function printersHTML(){
+  const ps = compatPrinters();
+  const sw = `<div class="view-switch"><button class="${S.pmode==='cards'?'on':''}" data-pmode="cards" aria-label="Cards"><span class="only-m" style="display:none">${I.cards}</span><span class="lbl">Cards</span></button><button class="${S.pmode==='table'?'on':''}" data-pmode="table" aria-label="Table"><span class="only-m" style="display:none">${I.list}</span><span class="lbl">Table</span></button></div>`;
+  if(!ps.length) return sw+`<div class="panel" style="flex:1"><div class="empty">${I.printer}<b>No compatible printers</b>${S.phidden.size?'<button class="link" data-act="unhide" style="color:#0aa6d6">Restore hidden printers</button>':'Adjust filters or selection.'}</div></div>`;
+  if(S.pmode==='cards'){
+    return sw+`<div class="cards-h">${ps.map(p=>`<article class="pcard">
+      <div class="pcard-h">PRINTER<button data-phide="${esc(p.name)}" aria-label="Hide printer">${I.x}</button></div>
+      <div class="pcard-body">
+        <div class="pimg"><img src="${PRINTER_IMG}" alt=""><div class="nm">${esc(p.name)} ${tag(p.tech)}</div></div>
+        <div class="sec-t">Materials Supported</div>${matChips(p,3)}
+        <div class="sec-t">Build Volume</div><div style="font-size:14px">${p.vol}</div>
+        <div class="two"><div><div class="sec-t">Material Bays</div><div class="bay"><span class="bx">${I.drop}</span>${p.mb}</div></div><div><div class="sec-t">Support Bays</div><div class="bay"><span class="bx">${I.layers}</span>${p.sb}</div></div></div>
+      </div>
+      <div class="pcard-foot"><button class="btn primary" data-act="datasheet" data-name="${esc(p.name)}">Preview Datasheet ${I.eye}</button></div>
+    </article>`).join('')}</div>`;
+  }
+  return sw+`<div class="printer-list">${ps.map(p=>`<article class="prow">
+      <div class="prow-top"><img src="${PRINTER_IMG}" alt=""><div class="prow-id"><div class="nm">${esc(p.name)}</div>${tag(p.tech)}</div><button class="btn primary" data-act="datasheet" data-name="${esc(p.name)}">Datasheet ${I.eye}</button></div>
+      <div class="prow-grid"><div><div class="k">Build<br>Volume</div><div class="vol">${p.dims[0]} × ${p.dims[1]}<br>× ${p.dims[2]}mm</div></div>
+      <div><div class="k">Bays</div><div class="bay"><span class="bx">${I.drop}</span>${p.mb}</div><div class="bay"><span class="bx">${I.layers}</span>${p.sb}</div></div>
+      <div><div class="k">Materials Supported</div>${matChips(p,2)}</div></div></article>`).join('')}</div>
+    <div class="panel graph-table" style="flex:1">${tableHTML(true)}</div>`;
+}
+
+/* ---------- nav, overlays ---------- */
+function radarBarBlocked(){ return S.sel.size===0 || S.sel.size>LIMIT; }
+function renderNav(){
+  $('#mnav').innerHTML = VIEWS.map(v=>`<button class="${S.view===v.k?'active':''} ${v.limited&&radarBarBlocked()&&S.view!==v.k?'dis':''}" data-view="${v.k}"><span class="bx">${v.ico}</span>${v.m.replace(' ','<br>')}</button>`).join('');
+}
+function renderOverlay(){
+  let h='';
+  if(S.profile!=null){
+    const m=MATERIALS[S.profile];
+    const desc = m.desc || DESCS[m.tech];
+    const ben = [`High heat resistance (HDT of ${m.hdt||'—'}°C)`, `Tensile strength of ${fmtU(m,'ts')}`, `Elongation at break ${fmtU(m,'el')}`, ...(m.compliance.length?[m.compliance.join(' · ')]:[]), `Ideal for ${m.apps.join(' & ').toLowerCase()} applications`];
+    const prs = PRINTERS.filter(p=>m.printers.some(n=>p.name.startsWith(n)));
+    h += `<div class="scrim clear only-d" data-act="close-profile"></div><aside class="drawer" role="dialog" aria-label="Material profile">
+      <div class="drawer-h">MATERIAL PROFILE<button data-act="close-profile" aria-label="Close">${I.x}</button></div>
+      <div class="drawer-b"><h3>${esc(m.name)} ${tag(m.tech)}</h3><p>${esc(desc)}</p>
+        <div class="sec-t">Key Benefits</div><ul class="benefits">${ben.map(b=>`<li>${I.check}${esc(b)}</li>`).join('')}</ul>
+        <div class="sec-t">Available Printers</div><div class="pgrid">${prs.map(p=>`<span>${esc(p.name)}</span>`).join('')}</div>
+        <div class="sec-t">Mechanical Properties</div><div class="pgrid">${PROPS.map(p=>`<span style="text-transform:none;justify-content:space-between">${p.short}<b style="font-weight:500">${fmtU(m,p.k)}</b></span>`).join('')}</div>
+      </div>
+      <div class="drawer-f"><button class="btn primary" data-act="datasheet" data-name="${esc(m.name)}">Preview Datasheet ${I.eye}</button></div></aside>`;
+  }
+  if(S.dialog){
+    h += `<div class="scrim" data-act="dialog-cancel"></div><div class="dialog" role="alertdialog" aria-modal="true"><h3>${S.dialog.title}</h3><p>${S.dialog.body}</p>
+      <div class="row"><button class="btn outline" data-act="dialog-cancel">Cancel</button><button class="btn primary" data-act="dialog-ok">Continue</button></div></div>`;
+  }
+  $('#overlay').innerHTML = h;
+  if(S.tip){ const t=document.createElement('div'); t.className='tip'+(isM()?' tipm':''); t.innerHTML=`<b>Selection Required</b><small>${S.tip.msg}</small>`;
+    $('#overlay').appendChild(t); const r=S.tip.el.getBoundingClientRect();
+    if(isM()){ t.style.bottom=(innerHeight-r.top+10)+'px'; } else { t.style.top=(r.bottom+8)+'px'; t.style.left=Math.min(r.left, innerWidth-t.offsetWidth-12)+'px'; } }
+}
+
+let toastT;
+function toast(msg){ document.querySelectorAll('.toast').forEach(t=>t.remove()); const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); clearTimeout(toastT); toastT=setTimeout(()=>t.remove(),2400); }
+let tipT;
+function showTip(el,msg){ S.tip={el,msg}; renderOverlay(); clearTimeout(tipT); tipT=setTimeout(()=>{S.tip=null;renderOverlay();},2600); }
+
+/* ================= ACTIONS ================= */
+function go(view, srcEl){
+  S.picker=null;
+  if(VIEW[view].limited){
+    if(S.sel.size===0){ showTip(srcEl, isM()?'Select materials in the table to view comparison charts.':'Select materials to view comparison charts.'); return; }
+    if(S.sel.size>LIMIT){ S.bar='err'; if(S.view!=='table') S.view='table'; render(); return; }
+  }
+  S.view=view; S.bar=null; S.tip=null;
+  render();
+  $('#stage').scrollTop=0;
+}
+function toggleSel(id, on){
+  if(on && VIEW[S.view].limited && S.sel.size>=LIMIT){ S.bar='err'; render(); return; }
+  on ? S.sel.add(id) : S.sel.delete(id);
+  if(S.bar!=='err' || S.sel.size<=LIMIT) S.bar = S.bar==='hidden'?'hidden':null;
+  if(S.sel.size===0) S.bar=null;
+  render();
+}
+function selectAll(on){
+  const list=filtered();
+  if(on && VIEW[S.view].limited){
+    const room = LIMIT - S.sel.size;
+    if(list.filter(m=>!S.sel.has(m.id)).length>room){ S.bar='err'; render(); return; }
+  }
+  list.forEach(m=>on?S.sel.add(m.id):S.sel.delete(m.id));
+  S.bar=null; render();
+}
+function resetAll(){
+  S.f=defaultFilters(); S.sel.clear(); S.bar=null; S.phidden.clear();
+}
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act],[data-view],[data-acc],[data-chip],[data-profile],[data-sort],[data-pmode],[data-phide],[data-pexp]');
+  if(S.picker && !e.target.closest('.picker-wrap')){ S.picker=null; renderStage(); }
+  if(!t) return;
+  const d=t.dataset;
+  if(d.view){ go(d.view,t); return; }
+  if(d.acc){ S.open.has(d.acc)?S.open.delete(d.acc):S.open.add(d.acc); renderSidebar(); return; }
+  if(d.chip!=null){ activeChips()[+d.chip].rm(); render(); return; }
+  if(d.profile!=null){ S.profile=+d.profile; renderOverlay(); return; }
+  if(d.sort){ if(e.target.closest('input')) return; e.preventDefault(); if(S.sort===d.sort){ if(S.sortDir>0) S.sortDir=-1; else S.sort=null; } else { S.sort=d.sort; S.sortDir=1; } renderStage(); return; }
+  if(d.pmode){ S.pmode=d.pmode; renderStage(); return; }
+  if(d.phide){ S.phidden.add(d.phide); toast(`${d.phide} hidden from overview`); render(); return; }
+  if(d.pexp){ S.pexp.has(d.pexp)?S.pexp.delete(d.pexp):S.pexp.add(d.pexp); renderStage(); return; }
+  switch(d.act){
+    case 'toggle-sidebar': document.getElementById('app').classList.toggle('collapsed'); break;
+    case 'open-filters': document.getElementById('app').classList.add('filters-open'); break;
+    case 'close-filters': document.getElementById('app').classList.remove('filters-open'); break;
+    case 'reset': case 'reset-m':
+      if(!activeChips().length && !S.sel.size){ toast('Nothing to reset'); break; }
+      S.dialog={title:'Are you absolutely sure?',body:'This action cannot be undone. All active filters and selected materials will be cleared and the catalog will return to its default view.'}; renderOverlay(); break;
+    case 'dialog-cancel': S.dialog=null; renderOverlay(); break;
+    case 'dialog-ok': S.dialog=null; resetAll(); render(); toast('Filters and selection reset'); break;
+    case 'clear-all': S.f=defaultFilters(); render(); break;
+    case 'printer-dd': S.printerDD=!S.printerDD; renderSidebar(); break;
+    case 'close-profile': S.profile=null; renderOverlay(); break;
+    case 'datasheet': toast(`Opening datasheet: ${d.name}`); break;
+    case 'clear-sel': S.sel.clear(); S.bar=null; render(); break;
+    case 'close-bar': S.bar = S.view==='table' ? 'hidden' : null; renderStage(); break;
+    case 'picker': S.picker = S.picker===S.view?null:S.view; renderStage(); break;
+    case 'picker-close': S.picker=null; renderStage(); break;
+    case 'picker-reset': ({radar:()=>S.radarN=5,bar:()=>S.barProp='fs',scatter:()=>{S.sx='ts';S.sy='hdt';}})[S.view](); S.picker=null; renderStage(); break;
+    case 'picker-apply': {
+      const pk=$('#picker');
+      if(S.view==='radar') S.radarN=+pk.querySelector('[name=pk]:checked').value;
+      if(S.view==='bar') S.barProp=pk.querySelector('[name=pk]:checked').value;
+      if(S.view==='scatter'){ S.sx=pk.querySelector('[name=sx]:checked').value; S.sy=pk.querySelector('[name=sy]:checked').value; }
+      S.picker=null; renderStage(); break; }
+    case 'unhide': S.phidden.clear(); render(); break;
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target, d=t.dataset;
+  if(d.f){ t.checked?S.f[d.f].add(t.value):S.f[d.f].delete(t.value); if(d.f==='tech'&&!S.f.tech.has('Polyjet')) S.f.group.clear(); render(); return; }
+  if(d.act==='legacy'){ S.f.legacy=t.checked; if(!t.checked) for(const n of [...S.f.printers]) if(PRINTERS.find(p=>p.name===n)?.legacy) S.f.printers.delete(n); render(); return; }
+  if(d.act==='units'){ S.units=t.value; render(); toast(t.value==='us'?'Showing Imperial units (psi, °F, in)':'Showing Metric units (MPa, °C, mm)'); return; }
+  if(d.num){ const r=rangeOf(d.num), max=rangeMax(d.num), i=+d.end; let v=Math.max(0,Math.min(max,+t.value||0)); r[i]=v; if(r[0]>r[1]) r[i?0:1]=v; render(); return; }
+  if(d.sel!=null){ toggleSel(+d.sel,t.checked); return; }
+  if('selall' in d){ selectAll(t.checked); return; }
+  if(d.act==='names'){ S.names=t.checked; renderStage(); return; }
+  // desktop picker: apply radio immediately
+  if(t.type==='radio' && t.closest('#picker') && !isM()){
+    if(S.view==='radar') S.radarN=+t.value; else if(S.view==='bar') S.barProp=t.value; else S[t.name]=t.value;
+    if(S.view!=='scatter') S.picker=null;
+    renderStage();
+  }
+});
+document.addEventListener('input',e=>{
+  const t=e.target, box=t.closest('[data-dual]'); if(!box) return;
+  const path=box.dataset.dual, r=rangeOf(path), max=rangeMax(path), i=+t.dataset.end;
+  let v=+t.value; if(i===0) v=Math.min(v,r[1]); else v=Math.max(v,r[0]); r[i]=v; t.value=v;
+  box.style.setProperty('--a',r[0]/max*100+'%'); box.style.setProperty('--b',r[1]/max*100+'%');
+  document.querySelectorAll(`[data-num="${path}"]`).forEach(n=>n.value=r[+n.dataset.end]);
+  renderSidebarMeta(); pruneSel(); renderHeader(); renderFiltersRow(); renderStage(); renderNav();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(S.dialog) S.dialog=null; else if(S.profile!=null) S.profile=null; else if(S.picker) S.picker=null; else document.getElementById('app').classList.remove('filters-open'); render(); } });
+mq.addEventListener('change',render);
+let rsT; addEventListener('resize',()=>{ if(S.tip){S.tip=null;renderOverlay();} clearTimeout(rsT); rsT=setTimeout(()=>{ if(S.view==='scatter') renderStage(); },120); });
+
+// default: open first category on desktop to mirror the design
+S.open.add('compliance');
+if(innerWidth>=768 && innerWidth<=1100) document.getElementById('app').classList.add('collapsed');
+const mqTablet = matchMedia('(max-width:1100px)');
+mqTablet.addEventListener('change',e=>{ document.getElementById('app').classList.toggle('collapsed', e.matches); if(S.view==='scatter') setTimeout(renderStage,300); });
+render();
+</script>
+</body>
+</html>
